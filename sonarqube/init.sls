@@ -1,8 +1,5 @@
 {% from 'sonarqube/map.jinja' import sonarqube with context %}
 
-include:
-  - java
-
 sonarqube:
   pkg.installed:
     - name: sonar
@@ -21,15 +18,6 @@ sonarqube-repo:
     - humanname: Sonar
     - baseurl: https://downloads.sourceforge.net/project/sonar-pkg/rpm
     - gpgcheck: 0
-
-sonarqube-wrapper-conf:
-  file.replace:
-    - name: /opt/sonar/conf/wrapper.conf
-    - pattern: ^wrapper.java.command=.*$
-    - repl: wrapper.java.command={{ sonarqube.java }}
-    - prepend_if_not_found: True
-    - watch_in:
-      - service: sonarqube
 
 sonarqube-config:
   file.blockreplace:
